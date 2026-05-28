@@ -1,0 +1,126 @@
+:root {
+  /* 🎨 Primary Theme Colors */
+  --bs-primary: #1c1c1c;          /* deep black */
+  --bs-secondary: #f5f1e8;        /* soft beige background */
+  --bs-accent: #ff6a2b;           /* orange highlight */
+
+  /* 🧾 Backgrounds */
+  --bg-main: #f5f1e8;
+  --bg-card: #ffffff;
+  --bg-muted: #f0ebe3;
+
+  /* 🖋️ Text Colors */
+  --text-primary: #1c1c1c;
+  --text-secondary: #6b6b6b;
+  --text-muted: #9a9a9a;
+  --text-white: #ffffff;
+
+  /* 🔘 Buttons */
+  --btn-primary-bg: #1c1c1c;
+  --btn-primary-text: #ffffff;
+  --btn-primary-hover: #333333;
+
+  --btn-secondary-bg: transparent;
+  --btn-secondary-border: #d6d0c4;
+  --btn-secondary-text: #1c1c1c;
+
+  /* 🟠 Accent */
+  --accent-color: #ff6a2b;
+  --accent-light: #ff8a57;
+
+  /* 📏 Borders & Radius */
+  --border-color: #e4ded4;
+  --border-radius: 12px;
+  --border-radius-lg: 20px;
+
+  /* 🌫️ Shadows */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+  /* 🔤 Typography */
+  --font-primary: 'Georgia', serif;
+  --font-secondary: 'Inter', sans-serif;
+
+  /* ⚡ Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-smooth: 0.3s ease;
+}
+body.dark-mode {
+  --bg-main: #121212;
+  --bg-card: #1e1e1e;
+  --bg-muted: #2a2a2a;
+
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #888888;
+
+  --btn-primary-bg: #ffffff;
+  --btn-primary-text: #121212;
+  --btn-primary-hover: #dddddd;
+
+  --border-color: #333;
+}
+body
+{
+    background-color: var(--bg-main);
+    font-family: var(--font-primary);
+}
+.cursor-pointer
+{
+    cursor: pointer;
+}
+.navbar .nav-link,
+.navbar-brand {
+  color: var(--text-primary);
+}
+.navbar .nav-link:hover {
+  color: var(--accent-color);
+}
+#dark-toggle
+{
+    border: var(--border-color);
+}
+#dark-toggle:hover
+{
+    background-color: var(--btn-primary-hover);
+}
+.container1{
+    height:min-content;
+}
+#heading1 {
+    /* width: ; */
+    color: var(--text-primary);
+    font-size: 70px;
+}
+#heading1-p
+{
+        color: var(--text-primary);
+}
+#amb
+{
+    color: var(--accent-color);
+}
+.btn1{
+    color:var(--btn-primary-text) ;
+    background-color: var(--btn-primary-bg);
+    font-size: 0.8rem;
+}
+.btn1:hover
+{
+    color: var(--btn-primary-text);
+    background-color: var(--btn-primary-hover);
+}
+
+.img1
+{
+    box-shadow: var(--shadow-medium);
+    border-radius: 30px;
+    margin:60px 0px 50px 0px;
+    width: 23rem;
+    height: 25rem;
+    animation: floating infinite ease-in-out 3s ;
+}
+@keyframes floating {
+    0%,100%{transform: translateY(18px);}
+    50% {transform: translateY(0px);}
+}

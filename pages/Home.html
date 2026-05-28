@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/Home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="navbar navbar-expand-lg border-bottom border-3">
+        <div class="container">
+                <a href="#" class="navbar-brand fw-bolder">TO-DO LISTER</a>
+                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navitems">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="navitems" class="collapse navbar-collapse">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link fw-bold rounded-circle border cursor-pointer" id="dark-toggle">🌙</a></li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link fw-bold cursor-pointer" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">
+                                Log In
+                            </a>
+                        </li>                        
+                        <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#signinmodal" class="nav-link fw-bold cursor-pointer">Sign in</a></li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+
+                <div class="modal-header">
+                    <h4 class="modal-title fw-bold">Log in to your Account</h4>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginform">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input type="email" id="loginemail" class="form-control" placeholder="Enter email">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Password</label>
+                            <input type="password" id="loginpassword" class="form-control" placeholder="Enter password">
+                        </div>
+                        <button class="btn btn-dark w-100 rounded-3" id="loginbtn">
+                            Log In
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="signinmodal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 p-3">
+                <div class="modal-header">
+                    <h4 class="modal-title fw-bold">Create an  Account</h4>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                    <!-- Full Name -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Full Name</label>
+                        <input type="text" id="signinname" 
+                               class="form-control"
+                               placeholder="Enter full name">
+                    </div>
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email</label>
+                        <input type="email" id="signinemail" 
+                               class="form-control"
+                               placeholder="Enter email">
+                    </div>
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Password</label>
+                        <input type="password" id="signinpassword" 
+                               class="form-control"
+                               placeholder="Enter password">
+                    </div>
+                    <!-- Confirm Password -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Confirm Password</label>
+                        <input type="password" id="signincfnpassword" 
+                               class="form-control"
+                               placeholder="Confirm password">
+                    </div>
+                    <!-- Date of Birth -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Date of Birth</label>
+                        <input type="date" class="form-control" id="signindob" >
+                    </div>
+                    <!--Gender -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold d-block">Gender</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="gender"
+                                   id="male"
+                                   value="Male">
+
+                            <label class="form-check-label" for="male">
+                                Male
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="gender"
+                                   id="female"
+                                   value="Female">
+
+                            <label class="form-check-label" for="female">
+                                Female
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="gender"
+                                   id="other"
+                                   value="Other">
+
+                            <label class="form-check-label" for="other">
+                                Other
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Address -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Address</label>
+                        <textarea class="form-control" id="signinaddress" 
+                                  rows="3"
+                                  placeholder="Enter address"></textarea>
+                    </div>
+                    <!-- Submit Button -->
+                    <button type="button" class="btn btn-dark w-100 rounded-3" id="signinbtn">
+                        Sign In
+                    </button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+          <div id="errorToast" class="toast" role="alert" >
+             <div class="toast-header">
+                <i class="bi bi-exclamation-triangle-fill text-danger pe-3 fs-4"></i>
+                <h4 class="text-danger fs-4 fw-bold" >Alert</h4>
+                <button class="btn-close ms-auto" data-bs-dismiss="toast"></button>
+          </div>
+          <div class="toast-body">
+                 <p class="lead" id="errMsg"></p>
+          </div>
+
+        </div>
+    </div>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+          <div id="successToast" class="toast" role="alert" >
+             <div class="toast-header">
+                <i class="bi bi-check-circle-fill text-success pe-3 fs-4"></i>
+                <h4 class="text-success fs-4 fw-bold">Login Success</h4>
+                <button class="btn-close ms-auto" data-bs-dismiss="toast"></button>
+          </div>
+    </div>
+    </div>
+
+
+    <div class="container-fluid " id="container-1">
+        <div class="row">
+            <div class="col-md-6 mt-5">
+                <div class="container d-flex flex-column align-items-center w-50">
+                    <h1 id="heading1">A quite place for <span id="amb">ambitious</span> work</h1>
+                    <p id="heading1-p">To-Do Lister is a simple task management application that helps users organize their daily activities efficiently.</p>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center ">
+                <img src="../asserts/undraw_approve_4ahx.svg" class="img1">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="../script/Home.js"></script>
+</body>
+</html>

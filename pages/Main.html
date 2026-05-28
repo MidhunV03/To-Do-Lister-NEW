@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do Lister</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/Home.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg border-bottom">
+        <div class="container">
+            <a href="Home.html" class="navbar-brand fw-bolder">TO-DO LISTER</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navitems" aria-controls="navitems" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="navitems" class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold rounded-circle border px-2 py-1 me-2" id="dark-toggle" style="cursor: pointer;">🌙</a>
+                    </li>
+                    <li class="nav-item" id="username">
+                        <!-- <a class="nav-link fw-bold" id="logout"  style="cursor: pointer;">Log out</a> -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 bg-light p-4 rounded shadow-sm">
+                
+            <div class="d-flex justify-content-end gap-2 mb-4 ">
+                <button id="addbtn" class="btn btn-primary px-4 fw-bold" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+                    ADD TASK
+                </button>
+                <button id="deletedtaskbtn" class="btn btn-danger px-4 fw-bold" data-bs-toggle="modal" data-bs-target="#deletedTaskModal">
+                    Deleted TASK
+                </button>
+            </div>
+            <div>
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="nav-item">
+                        <button 
+                            class="nav-link active"
+                            data-bs-toggle="tab"
+                            data-bs-target="#home">
+                            ALL
+                        </button>
+                    </li>
+
+                    <li class="nav-item">
+                        <button 
+                            class="nav-link"
+                            data-bs-toggle="tab"
+                            data-bs-target="#pending"
+                            id="pendingtaskbtn">
+                            Pending
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button 
+                            class="nav-link"
+                            data-bs-toggle="tab"
+                            data-bs-target="#completed"
+                            id="completedtaskbtn">
+                            Completed
+                        </button>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <button 
+                            class="nav-link"
+                            data-bs-toggle="tab"
+                            data-bs-target="#deleted"
+                            id="deletedtaskbtn">
+                            Deleted
+                        </button>
+                    </li> -->
+                    <li class="nav-item">
+                        <button 
+                            class="nav-link"
+                            data-bs-toggle="tab"
+                            data-bs-target="#duedate"
+                            id="duedatetaskbtn">
+                            Over DueDate 
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button 
+                            class="nav-link"
+                            data-bs-toggle="tab"
+                            data-bs-target="#highpriority"
+                            id="highprioritytaskbtn">
+                            High Priority tasks 
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content border border-top-0 p-3 rounded-bottom">
+
+                    <!-- HOME TAB -->
+                    <div class="tab-pane fade show active" id="home">
+                        <div id="taskContainer" class="d-flex flex-column"></div>
+                    </div>
+
+                    <!-- PENDING TAB -->
+                    <div class="tab-pane fade" id="pending">
+                        <div id="pendingTaskContainer"></div>
+                    </div>
+
+                    <div class="tab-pane fade" id="completed">
+                        <div id="completedTaskContainer"></div>
+                    </div>
+
+                    <!-- <div class="tab-pane fade" id="deleted">
+                        <div id="deletedTaskContainer"></div> -->
+                    </div>
+                    <div class="tab-pane fade" id="duedate">
+                        <div id="duedateTaskContainer"></div>
+                    </div>
+                    <div class="tab-pane fade" id="highpriority">
+                        <div id="highpriorityTaskContainer"></div>
+                    </div>
+
+
+                </div>
+            </div>    
+        </div>
+        </div>
+    </main>
+
+    <!-- ADD TASK MODAL -->
+<div class="modal fade" id="addTaskModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">
+                    Add New Task
+                </h5>
+                <button 
+                    type="button" 
+                    class="btn-close" 
+                    data-bs-dismiss="modal">
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Task Title -->
+                    <div class="col-12 mb-3">
+                        <label for="title" class="form-label fw-bold">
+                            Task Title
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="title"
+                            placeholder="What needs to be done?">
+                    </div>
+                    <!-- Description -->
+                    <div class="col-12 mb-3">
+                        <label for="desc" class="form-label fw-bold">
+                            Description
+                        </label>
+                        <textarea 
+                            class="form-control" 
+                            id="desc"
+                            rows="4"
+                            placeholder="Add some details..."></textarea>
+                    </div>
+                    <!-- Start Date -->
+                    <div class="col-md-6 mb-3">
+                        <label for="startdate" class="form-label fw-bold">
+                            Start Date
+                        </label>
+                        <input 
+                            type="date" 
+                            class="form-control"
+                            id="startdate">
+                    </div>
+                    <!-- Due Date -->
+                    <div class="col-md-6 mb-3">
+                        <label for="duedate" class="form-label fw-bold">
+                            Due Date
+                        </label>
+
+                        <input 
+                            type="date" 
+                            class="form-control"
+                            id="duedate1">
+                    </div>
+                    <!-- Priority -->
+                    <div class="col-12 mb-3">
+                        <label for="priority" class="form-label fw-bold">
+                            Priority
+                        </label>
+                        <select class="form-select" id="priority">
+                            <option selected disabled>
+                                Select Priority
+                            </option>
+                            <option value="High">
+                                🔴 High Priority
+                            </option>
+                            <option value="Low">
+                                🟢 Low Priority
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button 
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button 
+                    type="button"
+                    class="btn btn-primary"
+                    id="saveTask">
+                    Save Task
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="modal fade" id="updateTaskModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTaskModalLabel">Update Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="title" class="form-label fw-bold">Task Title</label>
+                        <input type="text" class="form-control" id="updatetitle" placeholder="What needs to be done?">
+                    </div>
+                    <div class="mb-3">
+                        <label for="desc" class="form-label fw-bold">Description</label>
+                        <textarea class="form-control" id="updatedesc" rows="3" placeholder="Add some details..."></textarea>
+                    </div>
+                    <label for="desc" class="form-label fw-bold">Status</label>
+                    <select class="form-select mb-3">
+                        <option>pending</option>
+                        <option>completed</option>
+                    </select>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Start Date
+                        </label>
+
+                        <input 
+                            type="date"
+                            class="form-control"
+                            id="updatestartdate">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Due Date
+                        </label>
+
+                        <input 
+                            type="date"
+                            class="form-control"
+                            id="updateduedate">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Priority
+                        </label>
+
+                        <select class="form-select" id="updatepriority">
+
+                            <option value="High">
+                                🔴 High Priority
+                            </option>
+
+                            <option value="Low">
+                                🟢 Low Priority
+                            </option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="updateTask">Update Task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- FOR DELETED TASK -->
+
+    <div class="modal fade" id="deletedTaskModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">
+                    DELETED TASK
+                </h5>
+                <button 
+                    type="button" 
+                    class="btn-close" 
+                    data-bs-dismiss="modal">
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div id="deletedTaskContainer">
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button 
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../script/Main.js"></script>
+</body>
+</html>
