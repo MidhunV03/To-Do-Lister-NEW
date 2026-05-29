@@ -1,111 +1,56 @@
 {
   "tasks": [
     {
-      "Title": "New id pend 2",
-      "Desc": "New id ",
-      "isCompleted": false,
-      "isdeleted": false,
-      "userid": "Oe660oAUT-c",
-      "id": "ri1BQNJ-99A",
-      "startdate": "2026-05-19",
-      "duedate": "2026-05-21",
-      "priority": "Low"
-    },
-    {
-      "Title": "deleted btn",
-      "Desc": "fun\n",
-      "isCompleted": false,
-      "isdeleted": true,
-      "userid": "Oe660oAUT-c",
-      "id": "z4YU3VcqBA0"
-    },
-    {
-      "Title": "dsa 1",
-      "Desc": "das",
-      "isCompleted": false,
-      "isdeleted": false,
-      "userid": "Oe660oAUT-c",
-      "id": "3F7GXdkJaMI",
-      "startdate": "",
-      "duedate": "",
-      "priority": ""
-    },
-    {
-      "Title": "fh",
-      "Desc": "gd",
-      "isCompleted": false,
-      "isdeleted": false,
-      "userid": "Oe660oAUT-c",
-      "id": "S6dEJMUM6Xw",
-      "startdate": "2026-05-22",
-      "duedate": "2026-05-07",
-      "priority": "Low"
-    },
-    {
-      "Title": "New priority",
-      "Desc": "something",
+      "Title": "new 1",
+      "Desc": "new 1",
+      "notYetStarted": true,
+      "isPending": false,
       "isCompleted": true,
       "isdeleted": false,
-      "startdate": "2026-05-19",
-      "priority": "High",
+      "startdate": "2026-05-29",
+      "duedate": "2026-05-31",
+      "priority": "Low",
       "userid": "Oe660oAUT-c",
-      "id": "8ULfGO-lw8w",
-      "duedate": ""
+      "id": "flgKXtHKMts"
     },
     {
-      "Title": "overdue",
-      "Desc": "overdue",
-      "isCompleted": false,
+      "Title": "nvm",
+      "Desc": "nvm",
+      "notYetStarted": true,
+      "isPending": false,
+      "isCompleted": true,
       "isdeleted": false,
-      "startdate": "2026-05-13",
+      "startdate": "2026-05-29",
+      "duedate": "2026-05-14",
       "priority": "High",
       "userid": "Oe660oAUT-c",
-      "id": "ZAhUKRCdlpg",
-      "duedate": "2026-05-16"
+      "id": "hRfcn37Gwf4"
     },
     {
-      "Title": "asddd",
-      "Desc": "asdasdads",
-      "isCompleted": false,
+      "Title": "Pending",
+      "Desc": "Penfinf",
+      "notYetStarted": true,
+      "isPending": false,
+      "isCompleted": true,
       "isdeleted": false,
-      "startdate": "3453-02-12",
+      "startdate": "2026-05-29",
+      "duedate": "2005-11-12",
       "priority": "High",
       "userid": "Oe660oAUT-c",
-      "id": "1b5sglSgzQE"
+      "id": "ckA7zGDr7S0"
     },
     {
-      "Title": "New",
-      "Desc": "to check pending",
-      "isCompleted": false,
-      "isdeleted": false,
-      "startdate": "2026-05-28",
-      "duedate": "2026-05-29",
-      "priority": "High",
-      "userid": "Oe660oAUT-c",
-      "id": "xx_Q9mgkErQ"
-    },
-    {
-      "Title": "is adding",
-      "Desc": "is adddinh",
-      "isCompleted": false,
-      "isdeleted": false,
-      "startdate": "2026-05-28",
-      "duedate": "2026-06-04",
-      "priority": "High",
-      "userid": "Oe660oAUT-c",
-      "id": "yNwnyyV0R1o"
-    },
-    {
-      "Title": "is pendinga",
-      "Desc": "is pendinga",
+      "Title": "what raa",
+      "Desc": "what raaa",
+      "notYetStarted": true,
       "isPending": false,
       "isCompleted": false,
       "isdeleted": false,
-      "startdate": "2026-05-28",
-      "duedate": "2026-06-05",
-      "priority": "Low",
+      "startdate": "2026-05-29",
+      "duedate": "2026-06-01",
+      "priority": "High",
       "userid": "Oe660oAUT-c",
-      "id": "wI-ZKhejEXs"
+      "id": "84y2pdx2Oyg"
     }
   ],
   "users": [
@@ -126,6 +71,16 @@
       "gender": "Male",
       "address": "Midhun@123",
       "id": "foUV1ZOw1Ck"
+    },
+    {
+      "name": "Chinese",
+      "email": "chinese@gmail.com",
+      "password": "Chinese@1",
+      "dob": "2005-09-13",
+      "gender": "Female",
+      "role": "Employee",
+      "address": "Arul Jothi Nagar",
+      "id": "OhmfBc5In5o"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

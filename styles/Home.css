@@ -116,10 +116,11 @@ body
     box-shadow: var(--shadow-medium);
     border-radius: 30px;
     margin:60px 0px 50px 0px;
-    width: 23rem;
+    width: 35rem;
     height: 25rem;
     animation: floating infinite ease-in-out 3s ;
 }
+
 @keyframes floating {
     0%,100%{transform: translateY(18px);}
     50% {transform: translateY(0px);}

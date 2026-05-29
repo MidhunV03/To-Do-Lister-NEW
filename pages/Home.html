@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="../styles/Home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
     <div class="navbar navbar-expand-lg border-bottom border-3">
         <div class="container">
+                <a><i class="fa-solid fa-list-check navbar-brand me-1"></i></a>
                 <a href="#" class="navbar-brand fw-bolder">TO-DO LISTER</a>
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navitems">
                     <span class="navbar-toggler-icon"></span>
@@ -73,6 +75,7 @@
                         <input type="text" id="signinname" 
                                class="form-control"
                                placeholder="Enter full name">
+                        <small id="signinnameerror"  class="text-danger"></small>
                     </div>
                     <!-- Email -->
                     <div class="mb-3">
@@ -80,6 +83,8 @@
                         <input type="email" id="signinemail" 
                                class="form-control"
                                placeholder="Enter email">
+                            <small id="signinemailerror" class="text-danger"></small>
+
                     </div>
                     <!-- Password -->
                     <div class="mb-3">
@@ -87,6 +92,8 @@
                         <input type="password" id="signinpassword" 
                                class="form-control"
                                placeholder="Enter password">
+                        <small id="signinpassworderror"  class="text-danger"></small>
+
                     </div>
                     <!-- Confirm Password -->
                     <div class="mb-3">
@@ -94,6 +101,8 @@
                         <input type="password" id="signincfnpassword" 
                                class="form-control"
                                placeholder="Confirm password">
+                        <small id="signincfnpassworderror"  class="text-danger"></small>
+
                     </div>
                     <!-- Date of Birth -->
                     <div class="mb-3">
@@ -137,12 +146,22 @@
                             </label>
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Role</label>
+                        <select class="form-select" id = "signinrole">
+                            <option value=" ">Select Role</option>
+                            <option value="Student">Student</option>
+                            <option value="Employee">Employee</option>
+                        </select>
+                        <small id="signinroleerror"  class="text-danger"></small>
+                    </div>
                     <!-- Address -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Address</label>
                         <textarea class="form-control" id="signinaddress" 
                                   rows="3"
                                   placeholder="Enter address"></textarea>
+                            <small id="signinaddresserror"  class="text-danger"></small>
                     </div>
                     <!-- Submit Button -->
                     <button type="button" class="btn btn-dark w-100 rounded-3" id="signinbtn">
@@ -187,11 +206,12 @@
                 </div>
             </div>
             <div class="col-md-6 d-flex justify-content-center ">
-                <img src="../asserts/undraw_approve_4ahx.svg" class="img1">
+                <img src="../asserts/Man with task list.svg" class="img1" id="img">
             </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

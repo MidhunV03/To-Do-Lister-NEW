@@ -20,10 +20,11 @@ document.getElementById("addbtn").addEventListener('click',function()
     const startdateInput = document.getElementById('startdate');
     const duedate = document.getElementById('duedate1');
     const today = new Date().toISOString().split("T")[0];
+    document.getElementById('startdate').disabled = true;
 
     startdateInput.value = today;
-    startdateInput.min = today;
-    startdateInput.max = today;
+    // startdateInput.min = today;
+    // startdateInput.max = today;
 
     duedate.value = "";
     duedate.min = today;
@@ -38,6 +39,7 @@ document.getElementById("saveTask").addEventListener('click', async function () 
     const duedate = document.getElementById('duedate1').value;
     const priority = document.getElementById('priority').value;
 
+    let notYetStarted = true;
     let isPending = false;
     let isCompleted = false;
     let isdeleted = false;
@@ -51,6 +53,7 @@ document.getElementById("saveTask").addEventListener('click', async function () 
             body: JSON.stringify({
                 Title: title,
                 Desc: desc,
+                notYetStarted : notYetStarted,
                 isPending : isPending,
                 isCompleted : isCompleted,
                 isdeleted : isdeleted,
@@ -64,7 +67,10 @@ document.getElementById("saveTask").addEventListener('click', async function () 
         document.getElementById('title').value = "";
         document.getElementById('desc').value = "";
 
-        fetchTask(); 
+        renderTasks(); 
+
+        const model = bootstrap.Modal.getInstance(document.getElementById('addTaskModal'))
+        model.hide();
     }
     catch (error) {
         console.log(error);
@@ -72,40 +78,56 @@ document.getElementById("saveTask").addEventListener('click', async function () 
 });
 
 
-async function fetchTask()
-{
-    try
-    {
-        const response = await fetch(`${API}?userid=${currentUserID}&isdeleted=false`);
-        const data = await response.json();
-        // const taskContainer = document.getElementById('taskContainer');
-        // taskContainer.innerHTML = "";
-        // data.forEach(element => {
-        //     const div = document.createElement('div');
-        //     div.classList.add("mb-3", "p-3", "border", "rounded");
-        //     div.innerHTML = `
-        //         <h3>${element.Title}</h3>
-        //         <h5>${element.Desc}</h5>
-        //        <button onclick="deletetask('${element.id}')">
-        //             Delete
-        //         </button>
-        //        <button onclick="completetask('${element.id}')">
-        //             Completed
-        //         </button>              
-        //     `;     
-        //     taskContainer.appendChild(div) 
-        // });
-        renderTasks(data)
-    }
-    catch(error)
-    {
-        toastr.error(error);
-    }
-}
-fetchTask();
+// async function fetchTask()
+// {
+//     try
+//     {
+//         const response = await fetch(`${API}?userid=${currentUserID}&isdeleted=false`);
+//         const data = await response.json();
+//         // const taskContainer = document.getElementById('taskContainer');
+//         // taskContainer.innerHTML = "";
+//         // data.forEach(element => {
+//         //     const div = document.createElement('div');
+//         //     div.classList.add("mb-3", "p-3", "border", "rounded");
+//         //     div.innerHTML = `
+//         //         <h3>${element.Title}</h3>
+//         //         <h5>${element.Desc}</h5>
+//         //        <button onclick="deletetask('${element.id}')">
+//         //             Delete
+//         //         </button>
+//         //        <button onclick="completetask('${element.id}')">
+//         //             Completed
+//         //         </button>              
+//         //     `;     
+//         //     taskContainer.appendChild(div) 
+//         // });
+//         renderTasks(data)
+//     }
+//     catch(error)
+//     {
+//         toastr.error(error);
+//     }
+// }
+renderTasks();
 async function deletetask(taskid)
 {
     console.log("delete")
+    
+    const result = await Swal.fire({
+        title : "Delete Task?",
+        text : "Task will be Deleted by can be Restored",
+        icon: "warning",
+
+        showCancelButton : true,
+        confirmButtonText : "Yes,Delete!",
+        cancelButtonText : "No"
+    });
+
+    if(!result.isConfirmed)
+    {
+        return;
+    }
+
     try
     {   
         await fetch(`${API}/${taskid}`, {
@@ -117,12 +139,23 @@ async function deletetask(taskid)
                 isdeleted : true
             })
         });
-
+        
+        Swal.fire(
+            "Deleted!",
+            "Task moved to deleted section",
+            "success"
+        );
         refreshCurrentTab();
     }
     catch(error)
     {
         console.log(error);
+
+        Swal.fire(
+            "Error",
+            "Something went wrong",
+            "error"
+        );
     }   
 }
 
@@ -140,15 +173,20 @@ async function completetask(taskid)
                 isCompleted : true
             })
         })
-        fetchTask();
+        refreshCurrentTab();
     }
     catch(error)
     {
         console.log(error)
     }   
 }
-function renderTasks(data)
+async function renderTasks()
 {
+    try
+    {
+    const response = await fetch(`${API}?userid=${currentUserID}&isdeleted=false`);
+    const data = await response.json();
+
     const taskContainer = document.getElementById('taskContainer');
     taskContainer.innerHTML = "";
     data.forEach(element => {
@@ -178,6 +216,15 @@ function renderTasks(data)
                     ${element.duedate}
                 </p>
                 <p class="mb-2">
+                    <strong>Status :</strong>
+                    ${
+                        element.isPending === true
+                        ? `<span class="text-warning fw-bold">Pending</span>`
+                        : (element.isCompleted === true) ? `<span class="text-success fw-bold">Completed</span>`
+                        : `<span class="text-primary fw-bold">Not Yet Started</span>`
+                    }
+                </p>
+                <p class="mb-2">
                     <strong>Priority :</strong>
                     ${
                         element.priority === "High"
@@ -194,6 +241,12 @@ function renderTasks(data)
                     '${element.id}',
                     '${element.Title}',
                     '${element.Desc}',
+                    '${
+                        element.isPending === true 
+                        ? 'pending'
+                        : (element.isCompleted === true) ? 'completed'
+                        : 'Not Yet Stated'
+                    }',
                     '${element.startdate}',
                     '${element.duedate}',
                     '${element.priority}'
@@ -214,13 +267,31 @@ function renderTasks(data)
         taskContainer.appendChild(div);
     });
 }
-function pendingrenderTasks(data)
+catch(error)
 {
+    console.log(error)
+}
+}
+async function pendingrenderTasks()
+{
+    let task;
+    try
+    {   
+       const response = await fetch(`${API}?userid=${currentUserID}&isPending=true&isCompleted=false&isdeleted=false`);
+       const data = await response.json();
+        task = data;
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+    // if(response.ok)
+    // {
     const pendingtaskContainer =
     document.getElementById('pendingTaskContainer');   
     pendingtaskContainer.innerHTML = "";
     
-    data.forEach(element => {
+    task.forEach(element => {
         const div = document.createElement('div');
         div.classList.add("mb-3","p-3","border","rounded");
         div.innerHTML = `
@@ -241,6 +312,15 @@ function pendingrenderTasks(data)
                     ${element.duedate}
                 </p>
                 <p class="mb-2">
+                    <strong>Status :</strong>
+                    ${
+                        element.isPending === true
+                        ? `<span class="text-warning fw-bold">Pending</span>`
+                        : (element.isCompleted === true) ? `<span class="text-success fw-bold">Completed</span>`
+                        : `<span class="text-primary fw-bold">Not Yet Started</span>`
+                    }
+                </p>
+                <p class="mb-2">
                     <strong>Priority :</strong>
                     ${
                         element.priority === "High"
@@ -257,6 +337,12 @@ function pendingrenderTasks(data)
                     '${element.id}',
                     '${element.Title}',
                     '${element.Desc}',
+                    '${
+                        element.isPending === true 
+                        ? 'pending'
+                        : (element.isCompleted === true) ? 'completed'
+                        : 'Not Yet Stated'
+                    }',
                     '${element.startdate}',
                     '${element.duedate}',
                     '${element.priority}'
@@ -274,25 +360,29 @@ function pendingrenderTasks(data)
         </div>
         </div>
         `;
-        pendingtaskContainer.appendChild(div);
-        
-    });
+        pendingtaskContainer.appendChild(div); });
+    // }
+
 }
 document.getElementById('pendingtaskbtn').addEventListener('click', async function pendingtask() {
     currentTab = 'pending';
-    try
-    {   
-       const response = await fetch(`${API}?userid=${currentUserID}&isCompleted=false&isdeleted=false`);
-       const data = await response.json();
-       pendingrenderTasks(data);
-    }
-    catch(error)
-    {
-        console.log(error);
-    }
+    pendingrenderTasks();
 })
 async function restoretask(taskid) 
 {
+    const result = await Swal.fire({
+        title : "Restore this task",
+        icon : "question",        
+        showCancelButton : true,
+        confirmButtonText : "Yes,Restore!",
+        cancelButtonText : "No"
+    })
+
+    if(!result.isConfirmed)
+    {
+        return;
+    }
+
     try
     {
         await fetch(`${API}/${taskid}`,{
@@ -304,18 +394,38 @@ async function restoretask(taskid)
                 isdeleted : false
             })
         })
+        Swal.fire(
+            "Restored!",
+            "success"
+        );
+        refreshCurrentTab();
+        deletedrenderTasks();
+        console.log(currentTab)
     }   
     catch
     {
         console.error("error")
     } 
-    refreshCurrentTab();
+
 }
-function deletedrenderTasks(data)
+async function deletedrenderTasks(data)
 {
-    const deletedtaskContainer =document.getElementById('deletedTaskContainer');   deletedtaskContainer.innerHTML = "";
+    let task;
+    try
+    {   
+       const response = await fetch(`${API}?userid=${currentUserID}&isdeleted=true`);
+       const data = await response.json();
+       task = data;
+    }
+    catch(error)
+    {
+        toastr.error(error);
+    }
+
+    const deletedtaskContainer =document.getElementById('deletedTaskContainer');   
+    deletedtaskContainer.innerHTML = "";
     
-    data.forEach(element => {
+    task.forEach(element => {
         const div = document.createElement('div');
         div.classList.add("mb-3","p-3","border","rounded");
         div.innerHTML = `
@@ -337,37 +447,25 @@ function deletedrenderTasks(data)
     });
 }
 document.getElementById('deletedtaskbtn').addEventListener('click', async function deletedtask() {
-    currentTab = 'delete';
-
-    // document.querySelectorAll(".tab-pane").forEach(tab => {
-    //     tab.classList.remove('show','active');
-    // });
-
-    // document.getElementById('deleted').classList.add('show', 'active');
-
-    try
-    {   
-       const response = await fetch(`${API}?userid=${currentUserID}&isdeleted=true`);
-       const data = await response.json();
-       deletedrenderTasks(data);
-    }
-    catch(error)
-    {
-        toastr.error(error);
-    }
+   
+    deletedrenderTasks();
 })
 
 let updateTaskId = null;
 
-function openUpdateModal(id,title,desc,startdate,duedate,priority)
+function openUpdateModal(id,title,desc,Status,startdate,duedate,priority)
 {
     updateTaskId = id;
-
+    console.log(desc)
     document.getElementById('updatetitle').value = title;
     document.getElementById('updatedesc').value = desc;
+    document.getElementById('updateStatus').value = Status;
 
     document.getElementById('updatestartdate').value = startdate;
+    document.getElementById('updatestartdate').disabled = true;
+    const today = new Date().toISOString().split("T")[0];
 
+    document.getElementById('updateduedate').min = today;
     document.getElementById('updateduedate').value = duedate;
 
     document.getElementById('updatepriority').value = priority;
@@ -375,19 +473,17 @@ function openUpdateModal(id,title,desc,startdate,duedate,priority)
 
 document.getElementById("updateTask").addEventListener('click',async function(){
 
-    const updatedTitle =
-    document.getElementById('updatetitle').value;
+    const updatedTitle = document.getElementById('updatetitle').value;
 
-    const updatedDesc =
-    document.getElementById('updatedesc').value;
-    const updatedStartDate =
-    document.getElementById('updatestartdate').value;
+    const updatedDesc = document.getElementById('updatedesc').value;
 
-    const updatedDueDate =
-    document.getElementById('updateduedate').value;
+    const updateStatus = document.getElementById('updateStatus').value;
 
-    const updatedPriority =
-    document.getElementById('updatepriority').value;
+    const updatedStartDate = document.getElementById('updatestartdate').value;
+
+    const updatedDueDate = document.getElementById('updateduedate').value;
+
+    const updatedPriority = document.getElementById('updatepriority').value;
         
     try
     {
@@ -399,6 +495,8 @@ document.getElementById("updateTask").addEventListener('click',async function(){
             body : JSON.stringify({
             Title : updatedTitle,
             Desc : updatedDesc,
+            isPending : updateStatus == 'pending'?true:false,
+            isCompleted : updateStatus == 'completed'?true:false,
             startdate : updatedStartDate,
             duedate : updatedDueDate,
             priority : updatedPriority
@@ -415,32 +513,25 @@ document.getElementById("updateTask").addEventListener('click',async function(){
     modal.hide();
 })
 
-async function changeStatus(id,value) 
+async function completedrenderTasks()
 {
-    try{
-        await fetch(`${API}/${id}`,{
-            method : "PATCH",
-            headers : {
-                "content-type" : "application/json"
-            },
-            body : JSON.stringify({
-                isCompleted : value === "true"
-            })
-        })
-        fetchTask();
+    let tasks;
+    try
+    {   
+       const response = await fetch(`${API}?userid=${currentUserID}&isCompleted=true&isdeleted=false`);
+       const data = await response.json();
+       tasks = data;
     }
     catch(error)
     {
-        toastr.error(error)
-    }    
-}
-function completedrenderTasks(data)
-{
+        console.log(error);
+    }
+
     const completedtaskContainer =
     document.getElementById('completedTaskContainer');   
     completedtaskContainer.innerHTML = "";
     
-    data.forEach(element => {
+    tasks.forEach(element => {
         const div = document.createElement('div');
         div.classList.add(
             "mb-3",
@@ -464,6 +555,15 @@ function completedrenderTasks(data)
                 <p class="mb-1">
                     <strong> Due Date :</strong>
                     ${element.duedate}
+                </p>                
+                <p class="mb-2">
+                    <strong>Status :</strong>
+                    ${
+                        element.isPending === true
+                        ? `<span class="text-warning fw-bold">Pending</span>`
+                        : (element.isCompleted === true) ? `<span class="text-success fw-bold">Completed</span>`
+                        : `<span class="text-primary fw-bold">Not Yet Started</span>`
+                    }
                 </p>
                 <p class="mb-2">
                     <strong>Priority :</strong>
@@ -482,6 +582,12 @@ function completedrenderTasks(data)
                     '${element.id}',
                     '${element.Title}',
                     '${element.Desc}',
+                    '${
+                        element.isPending === true 
+                        ? 'pending'
+                        : (element.isCompleted === true) ? 'completed'
+                        : 'Not Yet Stated'
+                    }',
                     '${element.startdate}',
                     '${element.duedate}',
                     '${element.priority}'
@@ -503,27 +609,41 @@ function completedrenderTasks(data)
     });
 }
 document.getElementById('completedtaskbtn').addEventListener('click', async function completedtask() {
-    currentTab = 'complete';
+    currentTab = 'completed';
+    completedrenderTasks();
+})
+
+async function overduerenderTasks(data)
+{
+    let task;
     try
-    {   
-       const response = await fetch(`${API}?userid=${currentUserID}&isCompleted=true`);
-       const data = await response.json();
-       completedrenderTasks(data);
+    {
+        const today = new Date().toISOString().split("T")[0];
+
+        const response = await fetch(
+            `${API}?userid=${currentUserID}&isdeleted=false`
+        );
+
+        const data = await response.json();
+
+        const overdueTasks = data.filter(element =>
+            element.duedate < today &&
+            element.isCompleted === false
+        );
+
+        task = overdueTasks;
     }
     catch(error)
     {
         console.log(error);
     }
-})
 
-function overduerenderTasks(data)
-{
     const duedatetaskContainer =
     document.getElementById('duedateTaskContainer');
 
     duedatetaskContainer.innerHTML = "";
 
-    data.forEach(element => {
+    task.forEach(element => {
 
         const div = document.createElement('div');
 
@@ -569,10 +689,16 @@ function overduerenderTasks(data)
         <div class="mt-3">
 
             <button
-                onclick="openUpdateModal(
+               onclick="openUpdateModal(
                     '${element.id}',
                     '${element.Title}',
                     '${element.Desc}',
+                    '${
+                        element.isPending === true 
+                        ? 'pending'
+                        : (element.isCompleted === true) ? 'completed'
+                        : 'Not Yet Stated'
+                    }',
                     '${element.startdate}',
                     '${element.duedate}',
                     '${element.priority}'
@@ -599,37 +725,31 @@ function overduerenderTasks(data)
 
 document.getElementById('duedatetaskbtn').addEventListener('click', async function () {
     currentTab = 'duedate';
-    try
-    {
-        const today = new Date().toISOString().split("T")[0];
+    overduerenderTasks();
+});
 
+async function highpriorityrenderTasks()
+{
+    let task;
+        try
+    {
         const response = await fetch(
-            `${API}?userid=${currentUserID}&isdeleted=false`
+            `${API}?userid=${currentUserID}&priority=High&isdeleted=false`
         );
 
         const data = await response.json();
-
-        const overdueTasks = data.filter(element =>
-            element.duedate < today &&
-            element.isCompleted === false
-        );
-
-        overduerenderTasks(overdueTasks);
+        task = data;
     }
     catch(error)
     {
         console.log(error);
     }
-});
-
-function highpriorityrenderTasks(data)
-{
     const highprioritytaskContainer =
     document.getElementById('highpriorityTaskContainer');
 
     highprioritytaskContainer.innerHTML = "";
 
-    data.forEach(element => {
+    task.forEach(element => {
 
         const div = document.createElement('div');
 
@@ -641,16 +761,69 @@ function highpriorityrenderTasks(data)
         );
 
         div.innerHTML = `
-        <div class="d-flex justify-content-between align-items-start">
-
+        <div class="d-flex justify-content-between align-items-end">
             <div>
-                <h3>${element.Title}</h3>
-                <h5>${element.Desc}</h5>
-
-                <p class="text-danger fw-bold">
-                    🔴 High Priority
+                <h3 class="fw-bold mb-2">
+                    ${element.Title}
+                </h3>
+                <p class="mb-2">
+                    ${element.Desc}
+                </p>
+                <p class="mb-1">
+                    <strong>Start Date :</strong>
+                    ${element.startdate}
+                </p>
+                <p class="mb-1">
+                    <strong> Due Date :</strong>
+                    ${element.duedate}
+                </p>
+                <p class="mb-2">
+                    <strong>Status :</strong>
+                    ${
+                        element.isPending === true
+                        ? `<span class="text-warning fw-bold">Pending</span>`
+                        : (element.isCompleted === true) ? `<span class="text-success fw-bold">Completed</span>`
+                        : `<span class="text-primary fw-bold">Not Yet Started</span>`
+                    }
+                </p>
+                <p class="mb-2">
+                    <strong>Priority :</strong>
+                    ${
+                        element.priority === "High"
+                        ? `<span class="text-danger fw-bold">🔴 High</span>`
+                        : `<span class="text-success fw-bold">🟢 Low</span>`
+                    }
                 </p>
             </div>
+
+        
+        <div class="">
+            <button
+               onclick="openUpdateModal(
+                    '${element.id}',
+                    '${element.Title}',
+                    '${element.Desc}',
+                    '${
+                        element.isPending === true 
+                        ? 'pending'
+                        : (element.isCompleted === true) ? 'completed'
+                        : 'Not Yet Stated'
+                    }',
+                    '${element.startdate}',
+                    '${element.duedate}',
+                    '${element.priority}'
+                )"
+                data-bs-toggle="modal"
+                data-bs-target="#updateTaskModal"
+                class="btn btn-warning me-2">
+                Update
+            </button>
+            <button
+                onclick="deletetask('${element.id}')"
+                class="btn btn-danger">
+                Delete
+            </button>
+        </div>
         </div>
         `;
 
@@ -661,23 +834,8 @@ function highpriorityrenderTasks(data)
 document.getElementById('highprioritytaskbtn').addEventListener('click', async function () {
 
     currentTab = 'highpriority';
-    try
-    {
-        const response = await fetch(
-            `${API}?userid=${currentUserID}&priority=High&isdeleted=false`
-        );
-
-        const data = await response.json();
-
-        highpriorityrenderTasks(data);
-    }
-    catch(error)
-    {
-        console.log(error);
-    }
+    highpriorityrenderTasks();
 });
-
-
 
 async function refreshCurrentTab()
 {
@@ -685,54 +843,30 @@ async function refreshCurrentTab()
     {
         if(currentTab === 'ALL')
         {
-            fetchTask();
+            renderTasks();
+            console.log("came")
         }
         else if(currentTab === 'pending')
         {
-            const response = await fetch(
-                `${API}?userid=${currentUserID}&isCompleted=false&isdeleted=false`
-            );
-            const data = await response.json();
-            pendingrenderTasks(data);
+            pendingrenderTasks();
         }
         else if(currentTab === 'completed')
         {
-            const response = await fetch(
-                `${API}?userid=${currentUserID}&isCompleted=true&isdeleted=false`
-            );
-            const data = await response.json();
-            completedrenderTasks(data);
+            completedrenderTasks();
+            renderTasks();
         }
         else if(currentTab === 'delete')
         {
-            const response = await fetch(
-                `${API}?userid=${currentUserID}&isdeleted=true`
-            );
-            const data = await response.json();
-            deletedrenderTasks(data);
+            deletedrenderTasks();
+            renderTasks();
         }
         else if(currentTab === 'duedate')
         {
-            const today = new Date().toISOString().split("T")[0];
-            const response = await fetch(
-                `${API}?userid=${currentUserID}&isdeleted=false`
-            );
-            const data = await response.json();
-            const overdueTasks = data.filter(element =>
-                element.duedate < today &&
-                element.isCompleted === false
-            );
-            overduerenderTasks(overdueTasks);
+            overduerenderTasks();
         }
         else if(currentTab === 'highpriority')
         {
-            const response = await fetch(
-                `${API}?userid=${currentUserID}&priority=High&isdeleted=false`
-            );
-
-            const data = await response.json();
-
-            highpriorityrenderTasks(data);
+            highpriorityrenderTasks();
         }
     }
     catch(error)

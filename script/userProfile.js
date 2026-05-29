@@ -40,6 +40,7 @@ window.onload = async function fetching() {
                         <h1 class="fs-4">EMAIL :<strong> ${element.email}</strong></h1>
                         <h1 class="fs-4">DATE OF BIRTH [yyyy-mm-dd] :<strong> ${element.dob}</strong></h1>
                         <h1 class="fs-4">GENDER :<strong> ${element.gender}</strong></h1>
+                        <h1 class="fs-4">ROLE :<strong> ${element.role}</strong></h1>
                         <h1 class="fs-4">ADDRESS :<strong> ${element.address}</strong></h1>
                         <br>
                         <button class = "btn btn-danger w-25 logout-btn">LOG OUT</button>
