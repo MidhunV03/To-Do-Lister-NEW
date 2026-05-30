@@ -1,21 +1,20 @@
 :root {
-  /* 🎨 Primary Theme Colors */
-  --bs-primary: #1c1c1c;          /* deep black */
-  --bs-secondary: #f5f1e8;        /* soft beige background */
-  --bs-accent: #ff6a2b;           /* orange highlight */
 
-  /* 🧾 Backgrounds */
-  --bg-main: #f5f1e8;
+  --bs-primary: #1c1c1c;          
+  --bs-secondary: #f5f1e8;        
+  --bs-accent: #ff6a2b;           
+
+  --bg-main: #ebe2cd;
   --bg-card: #ffffff;
   --bg-muted: #f0ebe3;
 
-  /* 🖋️ Text Colors */
+
   --text-primary: #1c1c1c;
   --text-secondary: #6b6b6b;
   --text-muted: #9a9a9a;
   --text-white: #ffffff;
 
-  /* 🔘 Buttons */
+
   --btn-primary-bg: #1c1c1c;
   --btn-primary-text: #ffffff;
   --btn-primary-hover: #333333;
@@ -24,27 +23,25 @@
   --btn-secondary-border: #d6d0c4;
   --btn-secondary-text: #1c1c1c;
 
-  /* 🟠 Accent */
   --accent-color: #ff6a2b;
   --accent-light: #ff8a57;
 
-  /* 📏 Borders & Radius */
   --border-color: #e4ded4;
   --border-radius: 12px;
   --border-radius-lg: 20px;
 
-  /* 🌫️ Shadows */
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
   --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.08);
 
-  /* 🔤 Typography */
-  --font-primary: 'Georgia', serif;
-  --font-secondary: 'Inter', sans-serif;
+--font-primary: 'Poppins', sans-serif;
+--font-secondary: 'Open Sans', sans-serif;
 
-  /* ⚡ Transitions */
   --transition-fast: 0.2s ease;
   --transition-smooth: 0.3s ease;
 }
+/* [data-bs-theme="dark"]{
+ 
+} */
 body.dark-mode {
   --bg-main: #121212;
   --bg-card: #1e1e1e;
@@ -64,6 +61,9 @@ body
 {
     background-color: var(--bg-main);
     font-family: var(--font-primary);
+}
+.cardColor{
+    background: linear-gradient(135deg,rgba(255, 166, 0, 0.122),white);
 }
 .cursor-pointer
 {

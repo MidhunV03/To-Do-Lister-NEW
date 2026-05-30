@@ -52,10 +52,20 @@ window.onload = async function fetching() {
         });
 
     document.querySelectorAll(".logout-btn").forEach(button => {
-            button.addEventListener('click', function () {
-                console.log("Click");
-                localStorage.clear();
-                window.location.href = 'Home.html';
+            button.addEventListener('click',async function () {
+                const result = await Swal.fire({
+                    title : "Are you sure want to Log Out",
+                    icon : "question",
+                    showCancelButton : true
+                })
+
+                if(!result.isConfirmed)
+                {
+                    return;
+                }
+                    console.log("Click");
+                    localStorage.clear();
+                    window.location.replace('Home.html');
             });
         });
 

@@ -67,7 +67,7 @@ async function validate(e)
     {
         toastr.success("Login Successful");
         setTimeout(() => {
-            window.location.href = "Main.html";
+            window.location.replace("Main.html");
         }, 3200);
     }
     else
@@ -93,7 +93,7 @@ const signinemail = $('#signinemail');
 const signinpassword = $('#signinpassword');
 const signincfnpassword = $('#signincfnpassword');
 const signindob = $('#signindob');
-const siginrole = $('#signinrole')
+const siginrole = $('#signinrole');
 const signinaddress = $('#signinaddress');
 const signinbtn = $('#signinbtn');
 
@@ -113,6 +113,7 @@ signinname.on('input',function(){
         $("#signinnameerror").text("")
         $(this).addClass("is-valid")
         $(this).removeClass("is-invalid")
+        localStorage.setItem("name",signinname.val())
     }
 });
 signinemail.on('input',function(){
@@ -127,6 +128,7 @@ signinemail.on('input',function(){
         $("#signinemailerror").text("")
         $(this).addClass("is-valid");
         $(this).removeClass("is-invalid");
+        localStorage.setItem("email",signinemail.val())
     }
 });
 signinpassword.on('input',function(){
@@ -176,6 +178,7 @@ signindob.on('input',function(){
         $("#signindoberror").text("");
         $(this).addClass("is-valid");
         $(this).removeClass("is-invalid");
+        localStorage.setItem("dob",$(this).val())
     }
     else
     {
@@ -196,6 +199,7 @@ $('input[name="gender"]').on('change', function(){
     else
     {
         $("#gendererror").text("");
+        localStorage.setItem("gender",$('input[name="gender"]:checked').val())
     }
 
 });
@@ -211,6 +215,7 @@ siginrole.on('change',function(){
         $("#signinroleerror").text("")
         $(this).addClass("is-valid");
         $(this).removeClass("is-invalid");
+        localStorage.setItem("role",$(this).val())
     }
 });
 
@@ -227,12 +232,45 @@ signinaddress.on('input',function(){
         $("#signinaddresserror").text("");
         $(this).addClass("is-valid");
         $(this).removeClass("is-invalid");
+        localStorage.setItem("address",$(this).val())
     }
 })
+
+function opensiginmodel()
+{
+        let updatesigninname = localStorage.getItem("name");
+        let updatesigninemail = localStorage.getItem("email");
+        let updatesigningender = localStorage.getItem("gender")
+        let updatesignindob = localStorage.getItem("dob");
+        let updatesiginrole = localStorage.getItem("role");
+        let updatesigninaddress = localStorage.getItem("address");
+
+        signinname.val(updatesigninname);
+        signinemail.val(updatesigninemail);
+        $(`input[name="gender"][value="${updatesigningender}"]`).prop("checked",true)
+        signindob.val(updatesignindob);
+        siginrole.val(updatesiginrole);
+        signinaddress.val(updatesigninaddress);
+}
+
+$("#signinbtnopenmodel").on('click',opensiginmodel)
 
 async function signinValidate(e)
 {
     e.preventDefault();
+
+        if(
+        signinname.val() == "" ||
+        signinemail.val()  == "" ||
+        signinpassword.val()  == "" ||
+        signindob.val()  == "" ||
+        siginrole.val()  == "" ||
+        signinaddress.val()  == ""
+    )
+    {
+        toastr.error("All Fields Are Required");
+        return
+    }
 
 const user ={
     name : signinname.val().trim(),
@@ -283,7 +321,8 @@ try
     catch(error)
     {
         toastr.error(error);
-        console.log(error)
+        console.log(error);
+        return;
     }
 }
 

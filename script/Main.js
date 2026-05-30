@@ -77,7 +77,6 @@ document.getElementById("saveTask").addEventListener('click', async function () 
     }
 });
 
-
 // async function fetchTask()
 // {
 //     try
@@ -108,6 +107,7 @@ document.getElementById("saveTask").addEventListener('click', async function () 
 //         toastr.error(error);
 //     }
 // }
+
 renderTasks();
 async function deletetask(taskid)
 {
@@ -159,27 +159,27 @@ async function deletetask(taskid)
     }   
 }
 
-async function completetask(taskid)
-{
+// async function completetask(taskid)
+// {
 
-    try
-    {
-        await fetch(`${API}/${taskid}`,{
-            method : "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body : JSON.stringify({
-                isCompleted : true
-            })
-        })
-        refreshCurrentTab();
-    }
-    catch(error)
-    {
-        console.log(error)
-    }   
-}
+//     try
+//     {
+//         await fetch(`${API}/${taskid}`,{
+//             method : "PATCH",
+//             headers: {
+//                 "Content-Type": "application/json"
+//             },
+//             body : JSON.stringify({
+//                 isCompleted : true
+//             })
+//         })
+//         refreshCurrentTab();
+//     }
+//     catch(error)
+//     {
+//         console.log(error)
+//     }   
+// }
 async function renderTasks()
 {
     try
@@ -196,10 +196,11 @@ async function renderTasks()
             "p-3",
             "border",
             "rounded",
-            "shadow-sm"
+            "shadow-sm",
+            "cardColor"
         );
         div.innerHTML = `
-        <div class="d-flex justify-content-between align-items-end">
+        <div class="d-flex justify-content-between align-items-end" >
             <div>
                 <h3 class="fw-bold mb-2">
                     ${element.Title}
@@ -293,7 +294,7 @@ async function pendingrenderTasks()
     
     task.forEach(element => {
         const div = document.createElement('div');
-        div.classList.add("mb-3","p-3","border","rounded");
+        div.classList.add("mb-3","p-3","border","rounded","cardColor");
         div.innerHTML = `
         <div class="d-flex justify-content-between align-items-end">
             <div>
@@ -361,6 +362,8 @@ async function pendingrenderTasks()
         </div>
         `;
         pendingtaskContainer.appendChild(div); });
+
+        renderTasks();
     // }
 
 }
@@ -427,7 +430,7 @@ async function deletedrenderTasks(data)
     
     task.forEach(element => {
         const div = document.createElement('div');
-        div.classList.add("mb-3","p-3","border","rounded");
+        div.classList.add("mb-3","p-3","border","rounded","cardColor");
         div.innerHTML = `
     <div class="d-flex justify-content-between align-items-start">
         <div>
@@ -443,6 +446,7 @@ async function deletedrenderTasks(data)
     </div>
 `;
         deletedtaskContainer.appendChild(div);
+        renderTasks();
         
     });
 }
@@ -537,7 +541,8 @@ async function completedrenderTasks()
             "mb-3",
             "p-3",
             "border",
-            "rounded"
+            "rounded",
+            "cardColor"
         );
         div.innerHTML = `
         <div class="d-flex justify-content-between align-items-end">
@@ -606,6 +611,7 @@ async function completedrenderTasks()
         </div>
         `;
         completedtaskContainer.appendChild(div);
+        renderTasks();
     });
 }
 document.getElementById('completedtaskbtn').addEventListener('click', async function completedtask() {
@@ -652,7 +658,7 @@ async function overduerenderTasks(data)
             "p-3",
             "border",
             "rounded",
-            "shadow-sm"
+            "shadow-sm","cardColor"
         );
 
         div.innerHTML = `
@@ -720,6 +726,8 @@ async function overduerenderTasks(data)
         `;
 
         duedatetaskContainer.appendChild(div);
+        refreshCurrentTab();
+
     });
 }
 
@@ -757,7 +765,7 @@ async function highpriorityrenderTasks()
             "mb-3",
             "p-3",
             "border",
-            "rounded"
+            "rounded","cardColor"
         );
 
         div.innerHTML = `
@@ -853,12 +861,12 @@ async function refreshCurrentTab()
         else if(currentTab === 'completed')
         {
             completedrenderTasks();
-            renderTasks();
+            // renderTasks();
         }
         else if(currentTab === 'delete')
         {
             deletedrenderTasks();
-            renderTasks();
+            // renderTasks();
         }
         else if(currentTab === 'duedate')
         {

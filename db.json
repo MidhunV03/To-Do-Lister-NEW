@@ -1,12 +1,12 @@
 {
   "tasks": [
     {
-      "Title": "new 1",
-      "Desc": "new 1",
+      "Title": "new 11 2",
+      "Desc": "new 112",
       "notYetStarted": true,
       "isPending": false,
       "isCompleted": true,
-      "isdeleted": false,
+      "isdeleted": true,
       "startdate": "2026-05-29",
       "duedate": "2026-05-31",
       "priority": "Low",
@@ -14,8 +14,8 @@
       "id": "flgKXtHKMts"
     },
     {
-      "Title": "nvm",
-      "Desc": "nvm",
+      "Title": "nvm 1",
+      "Desc": "nvm 1",
       "notYetStarted": true,
       "isPending": false,
       "isCompleted": true,
@@ -51,6 +51,19 @@
       "priority": "High",
       "userid": "Oe660oAUT-c",
       "id": "84y2pdx2Oyg"
+    },
+    {
+      "Title": "Puthusu 11111",
+      "Desc": "Puthusu 11111",
+      "notYetStarted": true,
+      "isPending": false,
+      "isCompleted": false,
+      "isdeleted": false,
+      "startdate": "2026-05-30",
+      "duedate": "2026-06-01",
+      "priority": "High",
+      "userid": "Oe660oAUT-c",
+      "id": "8wML4CYXaB0"
     }
   ],
   "users": [
@@ -60,6 +73,7 @@
       "password": "Midhun@123",
       "dob": "2004-09-03",
       "gender": "Male",
+      "role": "Employee",
       "address": "New RS PURAM NEAR SUKRAPEET",
       "id": "Oe660oAUT-c"
     },
@@ -69,6 +83,7 @@
       "password": "Midhun@123",
       "dob": "2026-05-10",
       "gender": "Male",
+      "role": "Employee",
       "address": "Midhun@123",
       "id": "foUV1ZOw1Ck"
     },
